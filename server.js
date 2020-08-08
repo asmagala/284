@@ -27,10 +27,10 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('addTask', task);
   });
 
-  socket.on('removeTask', (idx) => {
+  socket.on('removeTask', idx => {
     console.log(`Removing task ${idx}`);
     tasks.splice(tasks.findIndex(i => i.idx === idx), 1);
-    socket.broadcast.emit('removeTask', tasks);
+    socket.broadcast.emit('removeTask', idx);
   });
 });
 
