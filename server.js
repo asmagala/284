@@ -5,26 +5,32 @@ const app = express();
 
 let tasks = [];
 
+//////////////////////////////////
+tasks.push({idx: 'aaaaa', name: 'Takie długie name',});
+tasks.push({idx: '351', name: 'Shopping something',});
+tasks.push({idx: 'af43', name: 'Go out with the dog',});
+///////////////////////////////////
+
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running...');
 });
 
-const io = seocket(server);
+const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log(`Added new connection with id = ${socket.id}`);
+  console.log(`Adding new connection with id = ${socket.id}`);
   socket.emit('updateData', tasks);
 
   socket.on('addTask', (task) => {
-    console.log('Added new task', task);
+    console.log('Adding new task', task);
     tasks.push(task);
     socket.broadcast.emit('addTask', task);
   });
 
-  socket.on('removeTask', (id) => {
-    console.log(`Removed task ${id}`);
-    tasks.splice(id, 1);
-    socket.broadcast.emit('removeTask', id);
+  socket.on('removeTask', (idx) => {
+    console.log(`Removing task ${idx}`);
+    tasks.splice(tasks.findIndex(i => i.idx === idx), 1);
+    socket.broadcast.emit('removeTask', tasks);
   });
 });
 
