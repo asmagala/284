@@ -5,12 +5,6 @@ const app = express();
 
 let tasks = [];
 
-//////////////////////////////////
-tasks.push({idx: 'aaaaa', name: 'Takie długie name',});
-tasks.push({idx: '351', name: 'Shopping something',});
-tasks.push({idx: 'af43', name: 'Go out with the dog',});
-///////////////////////////////////
-
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running...');
 });

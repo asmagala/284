@@ -12,7 +12,7 @@ class App extends React.Component {
     };
 
     this.submitForm = this.submitForm.bind(this);
-    //this.changeValue = this.changeValue.bind(this);
+    this.changeValue = this.changeValue.bind(this);
   }
 
   componentDidMount() {
@@ -23,7 +23,6 @@ class App extends React.Component {
     });
 
     this.socket.on('removeTask', idx => {
-      //this.setState({ tasks: tasksNew});
       this.removeTaskLocally(idx);
     }); 
 
@@ -31,15 +30,12 @@ class App extends React.Component {
     this.socket.on('addTask', tasksNew => {
       this.addTask(tasksNew);
     }); 
-
-
   }
 
   addTask(task) {
     const { tasks } = this.state;
     tasks.push(task);
     this.setState(tasks);
-    //this.socket.emit('addTask', task);
   }
 
   updateData(tasks) {
@@ -54,9 +50,7 @@ class App extends React.Component {
   removeTaskLocally(id) {
     const { tasks } = this.state;
     const tasksNew = tasks.filter(task => task.idx !== id);
-    console.log('taskNew:', tasksNew);
     this.setState({tasks: tasksNew});
-    console.log('this.state:', this.state);
   }
 
   changeValue(event) {
@@ -71,15 +65,6 @@ class App extends React.Component {
     this.addTask(task);
     this.socket.emit('addTask', task);
     this.setState({taskName: ''});
-    //const textField = document.getElementById('task-name');
-    //textField.value = '';
-    /*
-    const textField = document.getElementById('task-name');
-    const id = v4();
-    console.log('textField:', textField.value, 'id:', id);
-    console.log('Oj, oj, oj...');
-    textField.value = '';
-    */
     }
 
 
@@ -93,12 +78,11 @@ class App extends React.Component {
 
       <section className="tasks-section" id="tasks-section">
         <h2>Tasks</h2>
-        <h2>Taski {this.state.taskName}</h2>
         <ul className="tasks-section__list" id="tasks-list">
           {
             this.state.tasks.map((task) => {
               return (
-                <li key={task.idx} className='task'>{task.name} - {task.idx}
+                <li key={task.idx} className='task'>{task.name}
                   <button onClick={() => this.removeTask(task.idx)} className="btn btn--red">Remove</button>
                 </li>
               );
@@ -113,7 +97,7 @@ class App extends React.Component {
             placeholder="Type your description" 
             id="task-name" 
             value={this.state.taskName} 
-            onChange={this.changeValue.bind(this)} 
+            onChange={this.changeValue} 
           />
           <button  className="btn" type="submit">Add</button>
         </form>
